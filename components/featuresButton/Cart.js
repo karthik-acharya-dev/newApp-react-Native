@@ -47,9 +47,7 @@ const Cart = ({ clearCart, placeOrder }) => {
                       style={styles.removeBtn}
                       onPress={() => addToCart(item)}
                     >
-                      <Text style={{ color: "white", fontSize: 10 }}>
-                        Remove
-                      </Text>
+                      <Text style={{ color: "white",fontSize:10 }}>Remove</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -141,6 +139,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 5,
+   
   },
   notYet: {
     textAlign: "center",

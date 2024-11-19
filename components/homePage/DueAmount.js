@@ -1,26 +1,31 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
 
 const DueAmount = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.dueContainer}>
       <View style={styles.amountsContainer}>
         <View style={styles.amountRow}>
-          <Text style={styles.label}>Total Due:</Text>
           <Text style={styles.amount}>
             ₹<Text style={styles.amountValue}>12,500</Text>
           </Text>
+          <Text style={styles.label}>Total Due:</Text>
           {/* Example Amount */}
         </View>
         <View style={styles.amountRow}>
-          <Text style={styles.label}>Overdue Amount:</Text>
           <Text style={styles.overdueAmount}>
             ₹<Text style={styles.amountValue}>3,200</Text>
           </Text>
+          <Text style={styles.label}>Overdue Amount:</Text>
           {/* Example Amount */}
         </View>
       </View>
-      <TouchableOpacity style={styles.payButton}>
+      <TouchableOpacity
+        style={styles.payButton}
+        onPress={() => navigation.navigate("Pay")}
+      >
         <Text style={styles.payButtonText}>Pay Now</Text>
       </TouchableOpacity>
     </View>
@@ -43,20 +48,25 @@ const styles = StyleSheet.create({
   },
   amountsContainer: {
     flex: 1,
-  },
-  amountRow: {
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  amountRow: {
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
     marginBottom: 8,
+
+    width: "50%",
   },
   label: {
     fontSize: 16,
     color: "#555",
-    fontWeight: "600",
+    fontWeight: "500",
   },
   amount: {
     fontSize: 18,
-    color: "#000",
+    color: "orange",
     fontWeight: "bold",
   },
   overdueAmount: {

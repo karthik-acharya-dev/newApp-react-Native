@@ -5,80 +5,31 @@ import {
   TextInput,
   FlatList,
   Image,
+  Modal,
+  ScrollView,
   TouchableOpacity,
   Animated,
   StyleSheet,
-  Modal,
-  ScrollView,
-  Alert,
 } from "react-native";
-import CheckBox from "react-native-checkbox";
+
 import SearchBar from "../homePage/SearchBar";
 import { useNavigation } from "@react-navigation/native";
 import Items from "./orderComponents/DummyItems";
 import { useFavorites } from "../../context/FavoritesContext";
-import { FontAwesome } from "@expo/vector-icons"; // You can use any icon library
+import { FontAwesome } from "@expo/vector-icons";
 import { CartContext } from "../../context/CartContext";
+import CategoryBrand from "./orderComponents/CategoryBrand";
+
 const OrderPage = ({ navigation }) => {
   const { addFavorite, removeFavorite, isFavorite } = useFavorites();
-
   const [favorites, setFavorites] = useState([]);
-  // const [expandedItem, setExpandedItem] = useState(null);
-
   const [selectedImage, setSelectedImage] = useState(null);
-  const [dropdownVisible, setDropdownVisible] = useState(null);
-  // const [search, setSearch] = useState("");
-  // const [selectedCategories, setSelectedCategories] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [categories, setCategories] = useState([]);
-  const [selectedCategories, setSelectedCategories] = useState({});
   const { cartItems, setCartItems } = useContext(CartContext);
   const [selectedItem, setSelectedItem] = useState(null);
   const [quantity, setQuantity] = useState("");
 
   const navigo = useNavigation();
-  const slideAnim = useRef(new Animated.Value(-300)).current; // Initial position for slide
-  // Simulate fetching categories from Tally ERP
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
-  const fetchCategories = () => {
-    // Replace this with your actual Tally ERP data fetching logic
-    const fetchedCategories = [
-      { id: "1", name: "Electronics" },
-      { id: "2", name: "Apparel" },
-      { id: "3", name: "Grocery" },
-      { id: "4", name: "Furniture" },
-      { id: "5", name: "Furniture" },
-      { id: "6", name: "Furniture" },
-      { id: "7", name: "Furniture" },
-      { id: "8", name: "Furniture" },
-      { id: "9", name: "Furniture" },
-      { id: "10", name: "Furniture" },
-      { id: "11", name: "Furniture" },
-      { id: "12", name: "Furniture" },
-      { id: "13", name: "Furniture" },
-    ];
-    setCategories(fetchedCategories);
-  };
-
-  const toggleCategory = (id) => {
-    setSelectedCategories((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  };
-
-  const handleNo = () => {
-    setModalVisible(false);
-  };
-
-  const handleOk = () => {
-    const selected = categories.filter((cat) => selectedCategories[cat.id]);
-    console.log("Selected Categories:", selected);
-    setModalVisible(false);
-  };
+  const slideAnim = useRef(new Animated.Value(-300)).current;
 
   const handleFavoriteToggle = (item) => {
     if (isFavorite(item.id)) {
@@ -87,25 +38,10 @@ const OrderPage = ({ navigation }) => {
       addFavorite(item);
     }
   };
-  // const addToCart = (Items) => {
-  //   setCartItems([...cartItems, Items]); // Add the clicked product to the cart
-  // };
-
-  const handleAddToCart = () => {
-    const itemWithQty = { ...selectedItem, quantity };
-    setCartItems([...cartItems, itemWithQty]); // Add the item with the specified quantity to the cart
-    setSelectedItem(null); // Close the modal after adding to cart
-  };
-  const handleQuantityChange = (text) => {
-    const qty = parseInt(text) || 1; // Ensure the quantity is a valid number and default to 1 if invalid
-    setQuantity(qty);
-  };
-  const toggleDropdown = (type) => {
-    setDropdownVisible(dropdownVisible === type ? null : type);
-  };
 
   const renderItem = ({ item }) => (
     <TouchableOpacity onPress={() => setSelectedItem(item)}>
+      {/* Item rendering */}
       <View style={styles.itemContainer}>
         <TouchableOpacity onPress={() => setSelectedImage(item)}>
           <Image
@@ -118,7 +54,7 @@ const OrderPage = ({ navigation }) => {
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <View>
+            <View style={{ flexDirection: "row", gap: 10 }}>
               <Text style={styles.itemMrp}>MRP: ₹{item.mrp}</Text>
               <Text style={styles.itemPrice}>Price: ₹{item.price}</Text>
             </View>
@@ -152,64 +88,12 @@ const OrderPage = ({ navigation }) => {
       navigo.navigate("Menu");
     });
   };
+
   return (
     <View style={styles.container}>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => setModalVisible(true)}
-        >
-          <Text style={styles.buttonText}>Categories</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => toggleDropdown("brands")}
-        >
-          <Text style={styles.buttonText}>Brands</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Categories and Brands Dropdown */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.overlay}>
-          <View style={styles.modalView}>
-            {/* Header */}
-            <Text style={styles.modalTitle}>Categories</Text>
-            <View style={styles.horizontalLine} />
-
-            {/* Category List */}
-            <ScrollView>
-              {categories.map((category) => (
-                <View style={styles.categoryItem}>
-                  <CheckBox
-                    label={false}
-                    value={selectedCategories[category.id] || false}
-                    onValueChange={() => toggleCategory(category.id)}
-                  />
-                  <Text style={styles.categoryText}>{category.name}</Text>
-                </View>
-              ))}
-            </ScrollView>
-
-            {/* Footer Buttons */}
-            <View style={styles.footer}>
-              <TouchableOpacity onPress={handleNo} style={styles.footerButton}>
-                <Text style={styles.footerButtonText}>NO</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={handleOk} style={styles.footerButton}>
-                <Text style={styles.footerButtonText}>OK</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
-
+      <CategoryBrand />
       <SearchBar openMenu={openMenu} />
+
       {Items.length === 0 ? (
         <Text style={{ textAlign: "center", marginTop: 30 }}>
           No items available
@@ -238,61 +122,7 @@ const OrderPage = ({ navigation }) => {
       >
         <Text style={styles.heartFilled}>❤️</Text>
       </TouchableOpacity>
-      {/* Modal for item details */}
-      {selectedItem && (
-        <Modal transparent={true} visible={true} animationType="fade">
-          <View style={styles.overlay}>
-            <View style={styles.modalContent}>
-              <Text style={styles.modalTitle}>{selectedItem.title}</Text>
 
-              {/* Table for MRP and Price */}
-              <View style={styles.tableRow}>
-                <Text style={styles.tableHeader}>MRP:</Text>
-                <Text style={styles.tableData}>₹{selectedItem.mrp}</Text>
-              </View>
-              <View style={styles.tableRow}>
-                <Text style={styles.tableHeader}>Price:</Text>
-                <Text style={styles.tableData}>₹{selectedItem.price}</Text>
-              </View>
-
-              {/* Quantity Input */}
-              <View style={styles.tableRow}>
-                <Text style={styles.tableHeader}>QTY:</Text>
-                <TextInput
-                  style={styles.quantityInput}
-                  value={quantity.toString()}
-                  onChangeText={handleQuantityChange}
-                  keyboardType="numeric"
-                />
-              </View>
-
-              {/* Total Price */}
-              <View style={styles.tableRow}>
-                <Text style={styles.tableHeader}>Total:</Text>
-                <Text style={styles.tableData}>
-                  ₹{(selectedItem.price * quantity).toFixed(2)}
-                </Text>
-              </View>
-
-              {/* Add to Cart Button */}
-              <TouchableOpacity
-                style={styles.addToCartButton}
-                onPress={handleAddToCart}
-              >
-                <Text style={styles.addToCartText}>ADD TO CART</Text>
-              </TouchableOpacity>
-
-              {/* Close Button */}
-              <TouchableOpacity
-                style={styles.closeButton}
-                onPress={() => setSelectedItem(null)}
-              >
-                <Text style={styles.closeButtonText}>Close</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
-      )}
       {/* Image Modal */}
       {selectedImage && (
         <Modal visible={true} transparent animationType="fade">
@@ -330,44 +160,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: "#EEEEEE",
   },
-  searchBar: {
-    height: 40,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    marginHorizontal: 10,
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginVertical: 10,
-    marginHorizontal: 10,
-  },
-  button: {
-    padding: 10,
-    backgroundColor: "#f2e01b",
-    borderRadius: 14,
-    textAlign: "center",
-    width: "49%",
-    marginVertical: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 4,
-  },
-  buttonText: {
-    fontSize: 15,
-    fontWeight: "500",
-    textAlign: "center",
-  },
-  listContainer: {
-    paddingBottom: 80,
 
-    marginTop: 10,
-  },
   itemContainer: {
     flexDirection: "row",
     padding: 10,
@@ -479,7 +272,11 @@ const styles = StyleSheet.create({
     color: "black",
     fontWeight: "bold",
   },
+  listContainer: {
+    paddingBottom: 80,
 
+    marginTop: 10,
+  },
   overlay: {
     flex: 1,
     justifyContent: "center",

@@ -14,6 +14,7 @@ import DueAmount from "./DueAmount";
 import ScrollImage from "./ScrollImage";
 import LowerFeature from "./LowerFeature";
 import { useNavigation } from "@react-navigation/native";
+import TopBar from "./TopBar";
 
 const HomePage = ({ handleLogout, user }) => {
   const navigation = useNavigation();
@@ -33,7 +34,8 @@ const HomePage = ({ handleLogout, user }) => {
     <View>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.upperSection}>
-          <SearchBar openMenu={openMenu} />
+          {/* <SearchBar  /> */}
+          <TopBar openMenu={openMenu} />
           <ScrollImage />
           <DueAmount />
         </View>

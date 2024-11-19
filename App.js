@@ -9,6 +9,7 @@ import Cart from "./components/featuresButton/Cart";
 import Favorites from "./components/featuresButton/Favorites";
 import OrderList from "./components/featuresButton/OrderList";
 import Ledger from "./components/featuresButton/Ledger";
+import PayBill from "./components/Pay/PayBill";
 import { FavoritesProvider } from "./context/FavoritesContext";
 import { CartProvider } from "./context/CartContext"; // Import the CartProvider
 
@@ -25,6 +26,7 @@ const App = () => {
               component={HomePage}
               options={{ headerShown: false }}
             />
+            <Stack.Screen name="Pay" component={PayBill} />
             <Stack.Screen name="Cart" component={Cart} />
             <Stack.Screen name="Order" component={Order} />
             <Stack.Screen name="BuyAgain" component={BuyAgain} />

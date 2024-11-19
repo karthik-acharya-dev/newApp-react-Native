@@ -7,6 +7,7 @@ import {
   Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons"; // Import icon library (Ionicons)
+import HamburgerIcon from "./HamburgerIcon";
 
 const SearchBar = ({ openMenu }) => {
   const [searchText, setSearchText] = useState("");
@@ -28,10 +29,7 @@ const SearchBar = ({ openMenu }) => {
           onChangeText={(text) => setSearchText(text)}
         />
       </View>
-      {/* Burger icon */}
-      <TouchableOpacity style={styles.burgerIcon} onPress={openMenu}>
-        <Ionicons name="menu" size={30} color="black" />
-      </TouchableOpacity>
+      {/* <HamburgerIcon openMenu={openMenu} /> */}
     </View>
   );
 };
@@ -43,7 +41,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 8,
     paddingHorizontal: 12,
-    paddingVertical: 8,
+
     width: "85%",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
