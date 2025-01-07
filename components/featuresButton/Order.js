@@ -14,7 +14,8 @@ import {
 
 import SearchBar from "../homePage/SearchBar";
 import { useNavigation } from "@react-navigation/native";
-import Items from "./orderComponents/DummyItems";
+// import Items from "./orderComponents/DummyItems";
+import Items from "../../assets/data";
 import { useFavorites } from "../../context/FavoritesContext";
 import { FontAwesome } from "@expo/vector-icons";
 import { CartContext } from "../../context/CartContext";
@@ -54,7 +55,7 @@ const OrderPage = ({ navigation }) => {
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <View style={{ flexDirection: "row", gap: 10 }}>
+            <View style={{ flexDirection: "row", gap: 40, fontWeight: 900 }}>
               <Text style={styles.itemMrp}>MRP: ₹{item.mrp}</Text>
               <Text style={styles.itemPrice}>Price: ₹{item.price}</Text>
             </View>
@@ -102,7 +103,7 @@ const OrderPage = ({ navigation }) => {
         <FlatList
           data={Items}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item) => item.CompanyID.toString()}
           contentContainerStyle={styles.listContainer}
         />
       )}
@@ -200,9 +201,11 @@ const styles = StyleSheet.create({
   itemMrp: {
     textDecorationLine: "line-through",
     color: "red",
+    fontSize: 15,
   },
   itemPrice: {
     color: "green",
+    fontSize: 15,
   },
   actionButtons: {
     flexDirection: "row",

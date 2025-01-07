@@ -63,14 +63,14 @@ const ScrollImage = () => {
 };
 const styles = StyleSheet.create({
   imageScrollContainer: {
-    height: 200, // Adjust height as per your design
+    height: 175, // Adjust height as per your design
     marginTop: 20,
     backgroundColor: "#RRGGBBAA", // Background of the scroll section
     borderRadius: 10,
   },
   scrollImage: {
     width: Dimensions.get("window").width * 0.8,
-    height: 200, // Adjust image height
+    height: 175, // Adjust image height
     marginRight: 5,
     borderRadius: 8,
     shadowColor: "#000",

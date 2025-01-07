@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     paddingHorizontal: 20,
-    height: 60, // Fixed height for the top bar
+    height: 40, // Fixed height for the top bar
     justifyContent: "space-between",
   },
   title: {

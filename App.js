@@ -12,6 +12,7 @@ import Ledger from "./components/featuresButton/Ledger";
 import PayBill from "./components/Pay/PayBill";
 import { FavoritesProvider } from "./context/FavoritesContext";
 import { CartProvider } from "./context/CartContext"; // Import the CartProvider
+import Returns from "./components/featuresButton/Returns";
 
 const Stack = createStackNavigator();
 
@@ -26,6 +27,7 @@ const App = () => {
               component={HomePage}
               options={{ headerShown: false }}
             />
+            <Stack.Screen name="Returns" component={Returns} />
             <Stack.Screen name="Pay" component={PayBill} />
             <Stack.Screen name="Cart" component={Cart} />
             <Stack.Screen name="Order" component={Order} />

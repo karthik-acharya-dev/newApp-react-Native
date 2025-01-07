@@ -1,5 +1,5 @@
 // LowerFeature.js
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons"; // For burger icon
 import { useNavigation } from "@react-navigation/native";
@@ -61,23 +61,35 @@ const LowerFeature = () => {
           <Text style={styles.boxText}>Ledger</Text>
         </TouchableOpacity>
       </View>
+      <View style={styles.row}>
+        <TouchableOpacity
+          style={styles.box}
+          onPress={() => navigation.navigate("Returns")}
+        >
+          <Ionicons name="repeat-outline" size={24} color="#000" />
+          <Text style={styles.boxText}>Return</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.box}
+          onPress={() => Alert.alert("Coming Soon")}
+        >
+          <Ionicons name="sad-outline" size={24} color="#000" />
+          <Text style={styles.boxText}>Coming Soon</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
   lowerSection: {
     flex: 1,
-    padding: 20,
+    padding: 10,
   },
   placeholderText: {
     fontSize: 18,
     color: "gray",
   },
 
-  //lower section style here
-  lowerSection: {
-    padding: 16,
-  },
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
